@@ -297,12 +297,11 @@ void OLED_SPI::Print_Num(u8 x,u8 y,u32 num,u8 len,u8 checkedState,u8 middleState
 	}
 } 	
 
-//	函数功能：居中显示一串整型数字
+//	函数功能：将一个整数的小数点左移两位 居中打印显示一串浮点数字
 //	x,y :起点坐标	
-//	num < 655.35
-void OLED_SPI::Print_FloatNum(u8 x,u8 y,float num)
+//	num < 65535
+void OLED_SPI::Print_FloatNum(u8 x,u8 y,u16 printNum)
 {
-	u16 printNum = num*100;
 	u16 temp = printNum;
 	u8 tabNum=0,t;
 
@@ -432,7 +431,7 @@ void OLED_SPI::Adjust_Page(const char *title,float param,float maxValue)
 	Print_AEN(2,6,'-',0);
 	Print_AEN(13,6,'+',0);
 	//绘制底部数字
-	Print_FloatNum(0,6,param);
+	Print_FloatNum(0,6,param*100);
 }
 
 //	函数功能：计算m^n

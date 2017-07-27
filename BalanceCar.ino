@@ -50,7 +50,7 @@ void loop() {
       // MPU6050 calc
       getMPU6050Data(&carAngle, &carAngleSpeed);
       ans = AngleControl(carAngle, carAngleSpeed);
-      
+      /*
       Serial.print(g_fGravityAngle);
       Serial.print('\t');
       Serial.print(g_fGyroscopeAngleSpeed / 10);
@@ -59,6 +59,8 @@ void loop() {
       Serial.print('\t');
       Serial.print(ans);
       Serial.println();
+      */
+      
       // send data to ATmega328
       MotorControl(-ans, 0);
       // stop run mode and return to debug mode

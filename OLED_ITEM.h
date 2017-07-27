@@ -29,7 +29,7 @@ public:
 	//打印一串数字 x:0~15 y:0~3 len>=num.length
 	void Print_Num(u8 x,u8 y,u32 num,u8 len,u8 checkedState,u8 middleState);
 	//居中打印一串浮点数(小数点后两位) x:0~15 y:0~3 num<655.35
-	void Print_FloatNum(u8 x,u8 y,float num);	
+	void Print_FloatNum(u8 x,u8 y,u16 num);	
 	//绘制一张图
 	void Draw_BMP(u8 x0, u8 y0,u8 x1, u8 y1,u8 BMP[]);			
 

@@ -89,33 +89,37 @@ void AdjParamFunc(OLED_SPI &MyOLED,PARAM_ROM &par,const char* title)
   u16 pointCount;
 
   float maxValue = par.range;
-  float tempValue = par.param;
+  float currentValue = par.param;
+  u16 printFloatNum = par.param*100;    // 用于打印浮点数 由于打印浮点数可能会精读丢失 
+                                        // 故使用整型来避免
 
-  pointCount = 48*tempValue/maxValue;
+  pointCount = 48*currentValue/maxValue;
 
-  MyOLED.Adjust_Page(title,tempValue,maxValue);
+  MyOLED.Adjust_Page(title,currentValue,maxValue);
   do
   {
-    if(UpKeyState() && tempValue+ADD_VALUE<=maxValue)
+    if(UpKeyState() && currentValue+ADD_VALUE<=maxValue)
     {
-      tempValue += ADD_VALUE;
-      pointCount = 48*tempValue/maxValue;
+      currentValue += ADD_VALUE;
+      printFloatNum += ADD_VALUE*100;
+      pointCount = 48*currentValue/maxValue;
       MyOLED.Print_ALine(16,3,pointCount,1);
-      MyOLED.Print_FloatNum(0,6,tempValue);
+      MyOLED.Print_FloatNum(0,6,printFloatNum);
     }
-    if(DownKeyState() && tempValue-MINUS_VALUE>=0)
+    if(DownKeyState() && currentValue-MINUS_VALUE>=0)
     {
-      tempValue -= MINUS_VALUE;
-      pointCount = 48*tempValue/maxValue;
+      currentValue -= MINUS_VALUE;
+      printFloatNum -= MINUS_VALUE*100;
+      pointCount = 48*currentValue/maxValue;
       MyOLED.Print_ALine(16+2*pointCount,3,48-pointCount,0);
-      MyOLED.Print_FloatNum(0,6,tempValue);
+      MyOLED.Print_FloatNum(0,6,printFloatNum);
     }
     if(EnterKeyState())
     {
-      if(tempValue != par.param)
+      if((printFloatNum/100.0) != par.param)
       {
-        par.param = tempValue;
-        WriteShort(par.addr,par.param*100);
+        par.param = printFloatNum/100.0;
+        WriteShort(par.addr,printFloatNum);
       }
       outFlag=1;
     }
