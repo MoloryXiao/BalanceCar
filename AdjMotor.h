@@ -14,20 +14,9 @@ extern PARAM_ROM A_D_Param;
 #define CAR_ANGLE_SET		0
 #define CAR_ANGLE_SPEED_SET	0
 
-// #define ANGLE_CONTROL_OUT_MAX 255
-// #define ANGLE_CONTROL_OUT_MIN -255
-
-// angle PID
-#define ANGLE_CONTROL_P 3
-#define ANGLE_CONTROL_D 3
-
 #define CAR_SPEED_CONSTANT	0
 #define CAR_SPEED_SETfDelta	0
 #define SPEED_CONTROL_PERIOD	100 
-
-// speed PID
-#define SPEED_CONTROL_I 1
-#define SPEED_CONTROL_P 1
 
 float speedControlOutOld = 0.0;
 float speedControlIntegral = 0.0;
@@ -56,8 +45,8 @@ float SpeedControl(float LSpeed, float RSpeed)
 	float fP, fI;
 	float carSpeed;
 	float value;
-  float speedControlOut; 
-  float speedControlPeriod;
+	float speedControlOut; 
+	float speedControlPeriod;
 	
 	carSpeed = (LSpeed + RSpeed) / 2.0;
 	carSpeed *= CAR_SPEED_CONSTANT;

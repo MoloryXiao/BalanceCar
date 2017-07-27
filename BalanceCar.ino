@@ -3,6 +3,7 @@
 #include "Motor_Control.h"
 #include "AdjMotor.h"
 #include "E2prom.h"
+#include "get_Motor_Speed.h"
 
 #define DEBUG_PIN 10
 
@@ -17,14 +18,16 @@ typedef enum {
 extern u8 expMotorFlag;
 unsigned char mode = OLED;
 extern u8 OLEDFlag;
-float carAngle = 0.0, carAngleSpeed = 0.0, ans = 0.0;
+float carAngle = 0.0, carAngleSpeed = 0.0, angleAns = 0.0;
+int carLMotor = 0, carRMotor = 0;
+float motorAns = 0.0;
 
 // D0 D1 RST DC
 OLED_SPI MyOLED(6, 12, 7, 13);
 void setup() {
   // motor init
   Serial1.begin(115200);
-  Serial.begin(115200);
+  // Serial.begin(115200);
 
   // OLED init and E2PROM init
   Wire.begin();             // 设置主机模式 I2C启动
@@ -36,6 +39,9 @@ void setup() {
   // MPU6050 init
   initMPU6050();
   pinMode(DEBUG_PIN, OUTPUT);
+  
+  // init motor encode IC
+  init_getMotorSpeed();
 }
 
 void loop() {
@@ -49,20 +55,26 @@ void loop() {
     case RUN:
       // MPU6050 calc
       getMPU6050Data(&carAngle, &carAngleSpeed);
-      ans = AngleControl(carAngle, carAngleSpeed);
-      /*
-      Serial.print(g_fGravityAngle);
-      Serial.print('\t');
-      Serial.print(g_fGyroscopeAngleSpeed / 10);
-      Serial.print('\t');
-      Serial.print(g_fCarAngle);
-      Serial.print('\t');
-      Serial.print(ans);
-      Serial.println();
-      */
+      angleAns = AngleControl(carAngle, carAngleSpeed);
       
+    // just for debugging
+    /*
+     Serial.print(g_fGravityAngle);
+     Serial.print('\t');
+     Serial.print(g_fGyroscopeAngleSpeed / 10);
+     Serial.print('\t');
+     Serial.print(g_fCarAngle);
+     Serial.print('\t');
+     Serial.print(angleAns);
+     Serial.println();
+    */
+  
+      // get motor speed
+      RtnSpeed(&carLMotor, &carRMotor);
+      motorAns = SpeedControl(carLMotor, carRMotor);
+	  
       // send data to ATmega328
-      MotorControl(-ans, 0);
+      MotorControl(-angleAns, motorAns);
       // stop run mode and return to debug mode
       if (CancelKeyState() == true) {
         mode = OLED;
