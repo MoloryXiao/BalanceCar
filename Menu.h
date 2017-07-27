@@ -4,7 +4,7 @@
 #include "Common.h"
 #include "OLED_ITEM.h"
 #include "KeyScanner.h"
-#include "E2prom.h"
+#include "EEPROM.h"
 
 #define MAXROW 8        //选项总数
 #define MINROW 1

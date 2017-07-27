@@ -42,7 +42,7 @@ public:
 	void ENStr_Page(const char *words);
 	void Comfirm_Page(const char *title,const char *words);
 	void Switch_Page(const char *title,const char *words,unsigned char state,unsigned char clr);
-	void Adjust_Page(const char *title,float param,float maxValue);
+	void Adjust_Page(const char *title,u16 param,float maxValue);
 
 	/* 引脚电平变化函数 */
 	void OLED_CS_Set(u8 staus);	

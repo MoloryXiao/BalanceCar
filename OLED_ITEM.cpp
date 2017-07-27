@@ -417,21 +417,20 @@ void OLED_SPI::Switch_Page(const char *title,const char *words,unsigned char sta
 	Print_ENString(0,6,"L:DO",0,0);
 	Print_ENString(11,6,"R:YES",0,0);
 }
-void OLED_SPI::Adjust_Page(const char *title,float param,float maxValue)
+void OLED_SPI::Adjust_Page(const char *title,u16 param,float maxValue)
 {
 	Clear();
 	unsigned char x_add=2,count=0;
 	Print_ENString(0,0,title,0,1);
 	// 48/maxValue = x/param
 	count = 48*param/maxValue;	// 48是掐头去尾空格后可以显示的像素点 maxValue允许大于这个值
-	if(count==0) count=1;		// 至少显示一个点 用于界面友好
 	Print_ALine(16,3,count,1);
 
 	//绘制'+' '-'符号
 	Print_AEN(2,6,'-',0);
 	Print_AEN(13,6,'+',0);
 	//绘制底部数字
-	Print_FloatNum(0,6,param*100);
+	Print_FloatNum(0,6,param);
 }
 
 //	函数功能：计算m^n

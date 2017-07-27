@@ -2,7 +2,7 @@
 #include "Menu.h"
 #include "Motor_Control.h"
 #include "AdjMotor.h"
-#include "E2prom.h"
+#include "EEPROM.h"
 #include "get_Motor_Speed.h"
 
 #define DEBUG_PIN 10
@@ -34,6 +34,7 @@ void setup() {
   MyOLED.Init();            // 包含了对OLED引脚的初始化
   InitKeys();               // 按键初始化
   GetParamData();           // 获取PID值
+  //ClearParamData();       // 清空参数
   OLED_FirstPrint(MyOLED);  // 显示初始化
 
   // MPU6050 init

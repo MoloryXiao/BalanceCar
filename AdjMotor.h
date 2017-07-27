@@ -2,7 +2,7 @@
 #define ADJMOTOR_H_
 
 #include "MPU6050.h"
-#include "E2prom.h"
+#include "EEPROM.h"
 
 extern PARAM_ROM V_P_Param;
 extern PARAM_ROM V_I_Param;
@@ -27,7 +27,7 @@ float AngleControl(float carAngle, float gyroscopeAngleSpeed)
 {
 	float value;
 	
-	value = (CAR_ANGLE_SET - carAngle) * A_P_Param.param + (CAR_ANGLE_SPEED_SET - gyroscopeAngleSpeed) *A_D_Param.param;
+	value = (CAR_ANGLE_SET - carAngle) * A_P_Param.GetParamFloatValue() + (CAR_ANGLE_SPEED_SET - gyroscopeAngleSpeed) *A_D_Param.GetParamFloatValue();
 	//value = (CAR_ANGLE_SET - carAngle) * 0.5 + (CAR_ANGLE_SPEED_SET - gyroscopeAngleSpeed) * 0;
 	
 	// if (value > ANGLE_CONTROL_OUT_MAX) 
@@ -52,8 +52,8 @@ float SpeedControl(float LSpeed, float RSpeed)
 	carSpeed *= CAR_SPEED_CONSTANT;
 	
 	fDelta = CAR_SPEED_SETfDelta - carSpeed;
-	fP = fDelta * V_P_Param.param;
-	fI = fDelta * V_I_Param.param;
+	fP = fDelta * V_P_Param.GetParamFloatValue();
+	fI = fDelta * V_I_Param.GetParamFloatValue();
 	
 	speedControlIntegral += fI;
 	
